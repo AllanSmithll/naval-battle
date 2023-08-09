@@ -85,18 +85,13 @@ public class NavalBattle {
             return board1[x][y] == SHIP;
     }
 
-    public void play() throws NavalBattleException {
+    public void play(String player1_p, String player2_p) throws NavalBattleException {
         Scanner sc = new Scanner(System.in);
         displayBoards();
         int missing_ships1 = AMOUNT_SHIPS;
         int missing_ships2 = AMOUNT_SHIPS;
-
-        System.out.println("Nome do Player 1: ");
-        String player1Name = sc.nextLine();
-        System.out.println("Nome do Player 2: ");
-        String player2Name = sc.nextLine();
-        this.player1 = new Player(player1Name);
-        this.player2 = new Player(player2Name);
+        this.player1 = new Player(player1_p);
+        this.player2 = new Player(player2_p);
 
         while (missing_ships1 > 0 && missing_ships2 > 0) {
             System.out.println("\nTentativa: " + current_shift);
