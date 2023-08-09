@@ -8,7 +8,7 @@ package models;
 import java.util.Scanner;
 
 public class NavalBattle {
-    private static final int BOARD_SIZE = 10;
+    private static final int BOARD_SIZE = 11;
     private static final int AMOUNT_SHIPS = 5;
     private static final char WATER = '~';
     private static final char SHIP = 'N';
@@ -27,8 +27,8 @@ public class NavalBattle {
     }
 
     public void inicializeBoards() {
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
+        for (int i = 1; i < BOARD_SIZE; i++) {
+            for (int j = 1; j < BOARD_SIZE; j++) {
                 board1[i][j] = WATER;
                 board2[i][j] = WATER;
             }
@@ -55,34 +55,34 @@ public class NavalBattle {
 
     private void displayBoards() {
         System.out.print("  ");
-    for (int j = 0; j < BOARD_SIZE; j++) {
-        System.out.print(j + " ");
-    }
-    System.out.print("    ");
-    for (int j = 0; j < BOARD_SIZE; j++) {
-        System.out.print(j + " ");
-    }
-    System.out.println();
-
-    for (int i = 0; i < BOARD_SIZE; i++) {
-        System.out.print(i + " ");
-        for (int j = 0; j < BOARD_SIZE; j++) {
-            System.out.print(board1[i][j] + " ");
+        for (int j = 1; j < BOARD_SIZE; j++) {
+            System.out.print(j + " ");
         }
-        System.out.print("   ");
-        System.out.print(i + " ");
-        for (int j = 0; j < BOARD_SIZE; j++) {
-            System.out.print(board2[i][j] + " ");
+        System.out.print("    ");
+        for (int j = 1; j < BOARD_SIZE; j++) {
+            System.out.print(j + " ");
         }
         System.out.println();
+
+        for (int i = 1; i < BOARD_SIZE; i++) {
+            System.out.print(i + " ");
+            for (int j = 1; j < BOARD_SIZE; j++) {
+                System.out.print(board1[i][j] + " ");
+            }
+            System.out.print("   ");
+            System.out.print(i + " ");
+            for (int j = 1; j < BOARD_SIZE; j++) {
+                System.out.print(board2[i][j] + " ");
+            }
+            System.out.println();
         }
     }
 
-    private boolean isSureShot(Player jogador,int x, int y) {
+    private boolean isSureShot(Player jogador, int x, int y) {
         if (jogador == this.player1)
-            return board1[x][y] == SHIP;
-        else
             return board2[x][y] == SHIP;
+        else
+            return board1[x][y] == SHIP;
     }
 
     public void play() throws NavalBattleException {
@@ -100,7 +100,7 @@ public class NavalBattle {
 
         while (missing_ships1 > 0 && missing_ships2 > 0) {
             System.out.println("\nTentativa: " + current_shift);
-            System.out.println("Começando por "+ this.player1.getName());
+            System.out.println("Começando por " + this.player1.getName());
             System.out.println("Digite uma linha: ");
             int x = sc.nextInt();
             System.out.println("Digite uma coluna: ");
@@ -120,7 +120,7 @@ public class NavalBattle {
             }
 
             System.out.println("\nTentativa: " + current_shift);
-            System.out.println("Começando por "+ this.player2.getName());
+            System.out.println("Começando por " + this.player2.getName());
             System.out.println("Digite uma linha: ");
             x = sc.nextInt();
             System.out.println("Digite uma coluna: ");
@@ -130,7 +130,7 @@ public class NavalBattle {
                 throw new NavalBattleException("Coordenadas Invalidas. Tente novamente.");
             }
 
-            if (isSureShot(player2, x, y)) {
+            if (isSureShot(player2, x, y) == true) {
                 board1[x][y] = FIRE;
                 System.out.println("Parabens! Acertou");
                 missing_ships1--;
@@ -142,8 +142,9 @@ public class NavalBattle {
             if (missing_ships1 == 0) {
                 System.out.printf("Parabéns, %s afundou todos os navios!", player1.getName());
                 break;
-            } else { System.out.printf("Parabéns, %s afundou todos os navios!", player2.getName());
-                break; 
+            } else if (missing_ships2 == 0) {
+                System.out.printf("Parabéns, %s afundou todos os navios!", player2.getName());
+                break;
             }
         }
         sc.close();
